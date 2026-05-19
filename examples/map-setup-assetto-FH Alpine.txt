@@ -1,0 +1,245 @@
+[ABOUT]
+AUTHOR=danilo.volpato
+DESCRIPTION=
+
+[CAR]
+MODEL=rss_formula_hybrid_2025_alpine
+
+--- Tyres ---
+[TYRES]
+VALUE=0 - SOFT
+VALUE=1 - MEDIUM
+VALUE=2 - HARD
+VALUE=3 - INTER
+VALUE=4 - WET
+
+
+--- Fuel ---
+[FUEL]
+VALUE=from 0 to 150
+
+
+--- Eletronics ---
+[MGUK_DELIVERY]
+VALUE=0 - NO DEPLOY
+VALUE=1 - BUILD
+VALUE=2 -LOW
+VALUE=3 - BALANCED
+VALUE=4 -HIGH
+VALUE=5 -ATTACK
+
+[MGUK_RECOVERY]
+VALUE=from 0 to 100, show in percents
+
+[MGUH_MODE]
+VALUE=0 - MOTOR
+VALUE=1 - BATTERY
+
+
+
+--- AERO ---
+
+[WING_0] SAME AS "FRONT WING"
+VALUE=from 0 to 30
+
+[WING_1] SAME AS "REAR WING"
+VALUE=from 0 to 30
+
+--- Brakes ---
+
+[BRAKE_POWER_MULT] - "Brake Power"
+VALUE=from 0 to 115
+
+[FRONT_BIAS] - "Brake Bias"
+VALUE=from 45 to 62
+
+[CUSTOM_SCRIPT_ITEM_0] "Brake Migration"
+VALUE=0.0 from 60.0, where 0.0 is -15.0 and 60.0 is +15.0
+
+[CUSTOM_SCRIPT_ITEM_1] "RAMP"
+VALUE=from 0 to 20, where 0 is 0% and 20 is 100%
+
+--- Driveability ---
+[CUSTOM_SCRIPT_ITEM_6] - Is Throttle Map
+VALUE=from 0 to 5, showing start by 1, where 0 is 1, and 5 is 6
+
+
+[CUSTOM_SCRIPT_ITEM_7] - is Engine brake map
+VALUE=0 to 11, showing start by 1, where 0 is 1, and 11 is 12
+
+--- Drivetrain ---
+	
+[CUSTOM_SCRIPT_ITEM_2] - Diff Entry
+VALUE=from 0 to 11, showing as a fraction, where 0 is 1/12 and 12 is 12/12
+
+[CUSTOM_SCRIPT_ITEM_3] - Diff Mid
+VALUE=from 0 to 11, showing as a fraction, where 0 is 1/12 and 12 is 12/12
+
+[CUSTOM_SCRIPT_ITEM_4] - Diff Exit
+VALUE=from 0 to 11, showing as a fraction, where 0 is 1/12 and 12 is 12/12
+
+[CUSTOM_SCRIPT_ITEM_5]
+VALUE=from 0 to 200,  showing start by 100, where 0 is 100, and 200 is 300
+
+[DIFF_PRELOAD] - Diff PreLoad
+VALUE=from 0 to 250
+
+--- Alignments ---
+
+[CAMBER_LF]
+VALUE=-27
+
+[CAMBER_LR]
+VALUE=-17
+
+[CAMBER_RF]
+VALUE=-27
+
+[CAMBER_RR]
+VALUE=-17
+
+
+[TOE_OUT_LF]
+VALUE=25
+
+[TOE_OUT_LR]
+VALUE=40
+
+[TOE_OUT_RF]
+VALUE=25
+
+[TOE_OUT_RR]
+VALUE=40
+
+--- Main ---
+
+[ARB_F] - Front ARB
+VALUE=9
+
+[ARB_R] - Rear ARB
+VALUE=3
+
+[CUSTOM_SCRIPT_ITEM_253] - Weight Distribution
+VALUE=from 0 to 44,  showing start by 44.6% , where 0 is 44.6%, and 44 is 46.10%
+
+[PACKER_RANGE_LF]
+VALUE=0
+
+[PACKER_RANGE_LR]
+VALUE=0
+
+[PACKER_RANGE_RF]
+VALUE=0
+
+[PACKER_RANGE_RR]
+VALUE=0
+
+
+
+	
+[ROD_LENGTH_LF]
+VALUE=30
+
+[ROD_LENGTH_LR]
+VALUE=0
+
+[ROD_LENGTH_RF]
+VALUE=30
+
+[ROD_LENGTH_RR]
+VALUE=0
+
+[SPRING_LF]
+VALUE=0
+
+[SPRING_LR]
+VALUE=0
+
+[SPRING_RF]
+VALUE=0
+
+[SPRING_RR]
+VALUE=0
+
+--- DUMPERS ---
+
+[DAMP_BUMP_LF]
+VALUE=3
+VALUE=7
+[DAMP_BUMP_LR]
+[DAMP_BUMP_LR]
+VALUE=0
+VALUE=12
+[DAMP_BUMP_RF]
+[DAMP_BUMP_RF]
+VALUE=2
+VALUE=11
+[DAMP_BUMP_RR]
+[DAMP_BUMP_RR]
+VALUE=1
+VALUE=11
+
+
+
+	
+[DAMP_FAST_BUMP_LF]
+VALUE=3
+VALUE=10
+[DAMP_FAST_BUMP_LR]
+[DAMP_FAST_BUMP_LR]
+VALUE=0
+VALUE=11
+[DAMP_FAST_BUMP_RF]
+[DAMP_FAST_BUMP_RF]
+VALUE=2
+VALUE=11
+[DAMP_FAST_BUMP_RR]
+[DAMP_FAST_BUMP_RR]
+VALUE=2
+VALUE=10
+
+
+	
+[DAMP_FAST_REBOUND_LF]
+[DAMP_FAST_REBOUND_LF]
+VALUE=2
+VALUE=11
+[DAMP_FAST_REBOUND_LR]
+[DAMP_FAST_REBOUND_LR]
+VALUE=0
+VALUE=12
+[DAMP_FAST_REBOUND_RF]
+[DAMP_FAST_REBOUND_RF]
+VALUE=2
+VALUE=11
+[DAMP_FAST_REBOUND_RR]
+[DAMP_FAST_REBOUND_RR]
+VALUE=1
+VALUE=10
+
+
+	
+[DAMP_REBOUND_LF]
+VALUE=3
+VALUE=11
+[DAMP_REBOUND_LR]
+[DAMP_REBOUND_LR]
+VALUE=0
+VALUE=13
+[DAMP_REBOUND_RF]
+[DAMP_REBOUND_RF]
+VALUE=1
+VALUE=10
+[DAMP_REBOUND_RR]
+[DAMP_REBOUND_RR]
+VALUE=1
+VALUE=11
+
+
+
+--- HEAVE ---
+
+
+
+
+
