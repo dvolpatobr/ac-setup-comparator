@@ -1,0 +1,13 @@
+---
+description: Padrões HTML e CSS do site estático
+globs: "**/*.{html,css}"
+alwaysApply: false
+---
+
+# HTML e CSS
+
+- UI em português (labels, mensagens, botões).
+- Usar `label` associado a inputs; estados com `aria-live` onde o conteúdo muda dinamicamente.
+- CSS em `css/styles.css`; evitar estilos inline.
+- Tema escuro existente: reutilizar variáveis CSS (`--accent`, `--surface`, etc.).
+- Layout responsivo com `grid`/`flex`; tabela com scroll horizontal em telas pequenas.
