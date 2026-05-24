@@ -107,6 +107,61 @@ main {
   color: var(--text-muted);
 }
 
+.preset-select {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.preset-label-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.preset-help {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-elevated);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+
+.preset-help:hover,
+.preset-help:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(225, 6, 0, 0.1);
+  outline: none;
+}
+
+.preset-select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.preset-hint {
+  margin: -0.25rem 0 0.75rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+}
+
 .file-label {
   display: inline-block;
   margin-bottom: 0.5rem;
@@ -423,6 +478,15 @@ td:nth-child(4) {
 
 .empty-msg[hidden] {
   display: none;
+}
+
+.download-row {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .site-footer {

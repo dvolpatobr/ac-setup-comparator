@@ -10,9 +10,17 @@ const pasteA = document.getElementById("paste-a");
 const pasteB = document.getElementById("paste-b");
 const filenameA = document.getElementById("filename-a");
 const filenameB = document.getElementById("filename-b");
+const presetA = document.getElementById("preset-a");
+const presetB = document.getElementById("preset-b");
+const presetHelpA = document.getElementById("preset-help-a");
+const presetHelpB = document.getElementById("preset-help-b");
+const presetHintA = document.getElementById("preset-hint-a");
+const presetHintB = document.getElementById("preset-hint-b");
 const btnCompare = document.getElementById("btn-compare");
 const btnLoadExamples = document.getElementById("btn-load-examples");
 const btnClear = document.getElementById("btn-clear");
+const btnDownloadA = document.getElementById("btn-download-a");
+const btnDownloadB = document.getElementById("btn-download-b");
 const errorMessage = document.getElementById("error-message");
 const resultsSection = document.getElementById("results-section");
 const summaryCards = document.getElementById("summary-cards");
@@ -27,6 +35,14 @@ let currentRows = null;
 
 /** @type {import("./setup-map.js").SetupMap | null} */
 let setupMap = null;
+
+const PRESET_HELP_TEXT = {
+  "setup-cola-total": "Cola Total: máximo downforce, foco em curvas lentas/médias. Pistas: Monaco, Singapore, Hungaroring, Madrid urbano.",
+  "setup-ataque-urbano": "Ataque Urbano: alta downforce com boa estabilidade em frenagens. Pistas: Baku, Montreal, Melbourne, Miami.",
+  "setup-equilibrio-universal": "Equilíbrio Universal: acerto coringa de médio downforce. Pistas: Barcelona, Áustria, Silverstone, Suzuka, Zandvoort.",
+  "setup-reta-com-freada": "Reta com Freada: baixo-médio downforce para retas longas e frenagens fortes. Pistas: Monza, Jeddah, Shanghai, Spa.",
+  "setup-velocidade-maxima": "Velocidade Máxima: mínimo downforce para velocidade final. Pistas: Las Vegas, Monza (asa extrema), setores de reta de Baku.",
+};
 
 async function initMap() {
   try {
@@ -57,6 +73,50 @@ function updateCompareButton() {
   const hasA = getContent(pasteA).length > 0;
   const hasB = getContent(pasteB).length > 0;
   btnCompare.disabled = !(hasA && hasB && setupMap);
+  btnDownloadA.disabled = !hasA;
+  btnDownloadB.disabled = !hasB;
+}
+
+function updatePresetHelpTooltip(selectEl, helpButtonEl, hintEl) {
+  if (!helpButtonEl) return;
+  const selected = selectEl.value;
+  if (!selected || !PRESET_HELP_TEXT[selected]) {
+    const fallback = "Selecione um preset para ver descrição e pistas sugeridas.";
+    helpButtonEl.title = fallback;
+    if (hintEl) hintEl.textContent = fallback;
+    return;
+  }
+  helpButtonEl.title = PRESET_HELP_TEXT[selected];
+  if (hintEl) hintEl.textContent = PRESET_HELP_TEXT[selected];
+}
+
+async function loadPreset(presetName, targetTextarea, targetFilename, targetFileInput) {
+  if (!presetName) return;
+  try {
+    const response = await fetch(`examples/${presetName}.ini`);
+    if (!response.ok) throw new Error("Não foi possível carregar o preset selecionado.");
+    targetTextarea.value = await response.text();
+    targetFilename.textContent = `examples/${presetName}.ini`;
+    targetFileInput.value = "";
+    showError("");
+    updateCompareButton();
+  } catch (err) {
+    showError(err instanceof Error ? err.message : "Erro ao carregar preset.");
+  }
+}
+
+function downloadSetup(text, fallbackName) {
+  const content = text.trim();
+  if (!content) return;
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fallbackName;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
 }
 
 function readFile(file, textarea, filenameEl) {
@@ -86,6 +146,24 @@ fileB.addEventListener("change", () => {
 
 pasteA.addEventListener("input", updateCompareButton);
 pasteB.addEventListener("input", updateCompareButton);
+presetA.addEventListener("change", () =>
+  {
+    updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
+    loadPreset(presetA.value, pasteA, filenameA, fileA);
+  }
+);
+presetB.addEventListener("change", () =>
+  {
+    updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
+    loadPreset(presetB.value, pasteB, filenameB, fileB);
+  }
+);
+btnDownloadA.addEventListener("click", () =>
+  downloadSetup(getContent(pasteA), "setup-a-export.ini")
+);
+btnDownloadB.addEventListener("click", () =>
+  downloadSetup(getContent(pasteB), "setup-b-export.ini")
+);
 
 function parseSetup(text, label) {
   const result = parseIni(text);
@@ -293,6 +371,10 @@ btnClear.addEventListener("click", () => {
   pasteB.value = "";
   fileA.value = "";
   fileB.value = "";
+  presetA.value = "";
+  presetB.value = "";
+  updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
+  updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
   filenameA.textContent = "Nenhum arquivo";
   filenameB.textContent = "Nenhum arquivo";
   filterDiffsOnly.checked = false;
@@ -306,3 +388,5 @@ btnClear.addEventListener("click", () => {
 });
 
 initMap().then(updateCompareButton);
+updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
+updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
