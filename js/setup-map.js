@@ -247,7 +247,7 @@ function applyRangeModifiers(num, rule) {
   }
 
   const offsetMatch = m.match(
-    /showing start by\s+(-?\d+(?:\.\d+)?)\s*,\s*where\s+(-?\d+(?:\.\d+)?)\s+is\s+(-?\d+(?:\.\d+)?)\s*,\s*and\s+(-?\d+(?:\.\d+)?)\s+is\s+(-?\d+(?:\.\d+)?)/i
+    /showing start by\s+(-?\d+(?:\.\d+)?)(?:%)?\s*,\s*where\s+(-?\d+(?:\.\d+)?)\s+is\s+(-?\d+(?:\.\d+)?)(?:%)?\s*,\s*and\s+(-?\d+(?:\.\d+)?)\s+is\s+(-?\d+(?:\.\d+)?)(?:%)?/i
   );
   if (offsetMatch) {
     const rawMin = Number(offsetMatch[2]);

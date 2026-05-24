@@ -78,7 +78,7 @@ VALUE=from 0 to 11, showing as a fraction, where 0 is 1/12 and 12 is 12/12
 [CUSTOM_SCRIPT_ITEM_4] - Diff Exit
 VALUE=from 0 to 11, showing as a fraction, where 0 is 1/12 and 12 is 12/12
 
-[CUSTOM_SCRIPT_ITEM_5]
+[CUSTOM_SCRIPT_ITEM_5] - Mid Diff — switch
 VALUE=from 0 to 200,  showing start by 100, where 0 is 100, and 200 is 300
 
 [DIFF_PRELOAD] - Diff PreLoad

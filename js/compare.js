@@ -18,7 +18,7 @@ import { extractSetupValue, formatDisplayValue } from "./setup-map.js";
  * @property {string} displayA
  * @property {string} displayB
  * @property {DiffStatus} status
- * @property {number | null} numericDelta
+ * @property {string | null} displayDelta
  */
 
 /**
@@ -57,11 +57,15 @@ export function diffMappedSetups(sectionsA, sectionsB, map) {
       status = "only_b";
     }
 
-    let numericDelta = null;
+    let displayDelta = null;
+    const displayA = formatDisplayValue(rawA, field);
+    const displayB = formatDisplayValue(rawB, field);
     if (status === "different" && rawA != null && rawB != null) {
       const numA = parseNumericValue(rawA);
       const numB = parseNumericValue(rawB);
-      if (numA != null && numB != null) numericDelta = numB - numA;
+      if (numA != null && numB != null) {
+        displayDelta = formatDisplayDelta(displayA, displayB, numB - numA);
+      }
     }
 
     rows.push({
@@ -70,10 +74,10 @@ export function diffMappedSetups(sectionsA, sectionsB, map) {
       iniKey: field.iniKey,
       rawA,
       rawB,
-      displayA: formatDisplayValue(rawA, field),
-      displayB: formatDisplayValue(rawB, field),
+      displayA,
+      displayB,
       status,
-      numericDelta,
+      displayDelta,
     });
 
     summary.total++;
@@ -93,3 +97,31 @@ export const STATUS_LABELS = {
   only_a: "só em A",
   only_b: "só em B",
 };
+
+function formatDisplayDelta(displayA, displayB, rawDelta) {
+  const parsedA = parseDisplayedNumber(displayA);
+  const parsedB = parseDisplayedNumber(displayB);
+
+  if (parsedA && parsedB && parsedA.suffix === parsedB.suffix) {
+    return formatSignedNumber(parsedB.value - parsedA.value, parsedA.suffix);
+  }
+
+  return formatSignedNumber(rawDelta, "");
+}
+
+function parseDisplayedNumber(value) {
+  const match = String(value).trim().match(/^(-?\d+(?:\.\d+)?)(%)?$/);
+  if (!match) return null;
+  return {
+    value: Number(match[1]),
+    suffix: match[2] ?? "",
+  };
+}
+
+function formatSignedNumber(value, suffix) {
+  const sign = value > 0 ? "+" : "";
+  const formatted = Number.isInteger(value)
+    ? String(value)
+    : value.toFixed(2).replace(/\.?0+$/, "");
+  return `${sign}${formatted}${suffix}`;
+}

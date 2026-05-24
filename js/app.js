@@ -189,11 +189,6 @@ function renderSummary(summary) {
     .join("");
 }
 
-function formatDelta(delta) {
-  const sign = delta > 0 ? "+" : "";
-  return `${sign}${delta}`;
-}
-
 function rowMatchesFilter(row) {
   if (filterDiffsOnly.checked && row.status === "equal") return false;
   const q = searchInput.value.trim().toLowerCase();
@@ -235,10 +230,9 @@ function renderResults() {
         visibleCount++;
         const statusClass = `status-badge--${row.status.replace(/_/g, "-")}`;
         const isDiff = row.status === "different";
-        const deltaHtml =
-          row.numericDelta != null
-            ? `<span class="numeric-delta">Δ ${formatDelta(row.numericDelta)}</span>`
-            : "";
+        const deltaHtml = row.displayDelta
+          ? `<span class="numeric-delta">Δ ${escapeHtml(row.displayDelta)}</span>`
+          : "";
 
         const help = getHelpForKey(row.iniKey);
         const helpBtn = help
