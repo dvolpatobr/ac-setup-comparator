@@ -26,19 +26,9 @@
         <div class="inputs-grid">
           <article class="setup-card" data-setup="a">
             <h3>Setup A</h3>
-            <label for="preset-a" class="preset-label-inline">
-              <span>Preset seco (FH Alpine)</span>
-              <button
-                type="button"
-                id="preset-help-a"
-                class="preset-help"
-                aria-label="Ajuda sobre os presets secos"
-                title="Selecione um preset para ver descrição e pistas sugeridas."
-              >
-                ?
-              </button>
-            </label>
-            <label for="preset-a">Preset seco (FH Alpine)</label>
+            <div class="preset-label-inline">
+              <label for="preset-a">Preset seco (FH Alpine)</label>
+            </div>
             <select id="preset-a" class="preset-select">
               <option value="">Selecionar preset…</option>
               <option value="setup-cola-total">Cola Total (máximo downforce)</option>
@@ -66,19 +56,9 @@
 
           <article class="setup-card" data-setup="b">
             <h3>Setup B</h3>
-            <label for="preset-b" class="preset-label-inline">
-              <span>Preset seco (FH Alpine)</span>
-              <button
-                type="button"
-                id="preset-help-b"
-                class="preset-help"
-                aria-label="Ajuda sobre os presets secos"
-                title="Selecione um preset para ver descrição e pistas sugeridas."
-              >
-                ?
-              </button>
-            </label>
-            <label for="preset-b">Preset seco (FH Alpine)</label>
+            <div class="preset-label-inline">
+              <label for="preset-b">Preset seco (FH Alpine)</label>
+            </div>
             <select id="preset-b" class="preset-select">
               <option value="">Selecionar preset…</option>
               <option value="setup-cola-total">Cola Total (máximo downforce)</option>
@@ -116,6 +96,14 @@
             Limpar tudo
           </button>
         </div>
+        <div class="download-row">
+          <button type="button" id="btn-download-a" class="btn btn-secondary" disabled>
+            Baixar setup A (.ini)
+          </button>
+          <button type="button" id="btn-download-b" class="btn btn-secondary" disabled>
+            Baixar setup B (.ini)
+          </button>
+        </div>
         <p id="map-status" class="map-status" aria-live="polite"></p>
         <p id="error-message" class="error-message" role="alert" hidden></p>
       </section>
@@ -148,15 +136,6 @@
         <p id="empty-filter-msg" class="empty-msg" hidden>
           Nenhum parâmetro corresponde aos filtros atuais.
         </p>
-
-        <div class="download-row">
-          <button type="button" id="btn-download-a" class="btn btn-secondary" disabled>
-            Baixar setup A (.ini)
-          </button>
-          <button type="button" id="btn-download-b" class="btn btn-secondary" disabled>
-            Baixar setup B (.ini)
-          </button>
-        </div>
       </section>
     </main>
 

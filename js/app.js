@@ -12,8 +12,6 @@ const filenameA = document.getElementById("filename-a");
 const filenameB = document.getElementById("filename-b");
 const presetA = document.getElementById("preset-a");
 const presetB = document.getElementById("preset-b");
-const presetHelpA = document.getElementById("preset-help-a");
-const presetHelpB = document.getElementById("preset-help-b");
 const presetHintA = document.getElementById("preset-hint-a");
 const presetHintB = document.getElementById("preset-hint-b");
 const btnCompare = document.getElementById("btn-compare");
@@ -77,16 +75,13 @@ function updateCompareButton() {
   btnDownloadB.disabled = !hasB;
 }
 
-function updatePresetHelpTooltip(selectEl, helpButtonEl, hintEl) {
-  if (!helpButtonEl) return;
+function updatePresetHint(selectEl, hintEl) {
   const selected = selectEl.value;
   if (!selected || !PRESET_HELP_TEXT[selected]) {
     const fallback = "Selecione um preset para ver descrição e pistas sugeridas.";
-    helpButtonEl.title = fallback;
     if (hintEl) hintEl.textContent = fallback;
     return;
   }
-  helpButtonEl.title = PRESET_HELP_TEXT[selected];
   if (hintEl) hintEl.textContent = PRESET_HELP_TEXT[selected];
 }
 
@@ -146,22 +141,14 @@ fileB.addEventListener("change", () => {
 
 pasteA.addEventListener("input", updateCompareButton);
 pasteB.addEventListener("input", updateCompareButton);
-presetA.addEventListener("change", () =>
-  {
-    updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
-    loadPreset(presetA.value, pasteA, filenameA, fileA);
-  }
-);
-presetB.addEventListener("change", () =>
-  {
-    updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
-    loadPreset(presetB.value, pasteB, filenameB, fileB);
-  }
-  loadPreset(presetA.value, pasteA, filenameA, fileA)
-);
-presetB.addEventListener("change", () =>
-  loadPreset(presetB.value, pasteB, filenameB, fileB)
-);
+presetA.addEventListener("change", () => {
+  updatePresetHint(presetA, presetHintA);
+  loadPreset(presetA.value, pasteA, filenameA, fileA);
+});
+presetB.addEventListener("change", () => {
+  updatePresetHint(presetB, presetHintB);
+  loadPreset(presetB.value, pasteB, filenameB, fileB);
+});
 btnDownloadA.addEventListener("click", () =>
   downloadSetup(getContent(pasteA), "setup-a-export.ini")
 );
@@ -377,8 +364,8 @@ btnClear.addEventListener("click", () => {
   fileB.value = "";
   presetA.value = "";
   presetB.value = "";
-  updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
-  updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
+  updatePresetHint(presetA, presetHintA);
+  updatePresetHint(presetB, presetHintB);
   filenameA.textContent = "Nenhum arquivo";
   filenameB.textContent = "Nenhum arquivo";
   filterDiffsOnly.checked = false;
@@ -392,5 +379,5 @@ btnClear.addEventListener("click", () => {
 });
 
 initMap().then(updateCompareButton);
-updatePresetHelpTooltip(presetA, presetHelpA, presetHintA);
-updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
+updatePresetHint(presetA, presetHintA);
+updatePresetHint(presetB, presetHintB);

@@ -112,6 +112,8 @@ export function initTooltips(root) {
   root.querySelectorAll(".help-trigger").forEach((btn) => {
     const key = btn.getAttribute("data-help-key");
     if (!key) return;
+    if (btn.dataset.tooltipBound === "true") return;
+    btn.dataset.tooltipBound = "true";
 
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -126,6 +128,7 @@ export function initTooltips(root) {
       showTooltip(/** @type {HTMLElement} */ (btn), help);
     });
   });
+
 }
 
 if (!window.__setupTooltipInit) {
