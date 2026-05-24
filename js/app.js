@@ -157,6 +157,10 @@ presetB.addEventListener("change", () =>
     updatePresetHelpTooltip(presetB, presetHelpB, presetHintB);
     loadPreset(presetB.value, pasteB, filenameB, fileB);
   }
+  loadPreset(presetA.value, pasteA, filenameA, fileA)
+);
+presetB.addEventListener("change", () =>
+  loadPreset(presetB.value, pasteB, filenameB, fileB)
 );
 btnDownloadA.addEventListener("click", () =>
   downloadSetup(getContent(pasteA), "setup-a-export.ini")

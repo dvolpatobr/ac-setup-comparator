@@ -1,0 +1,14 @@
+---
+description: Parser INI e lógica de comparação
+globs: "**/*.js"
+alwaysApply: false
+---
+
+# Parser e comparador
+
+- `parseIni`: seções `[NOME]`, `CHAVE=valor`, comentários `;` e `//`, `VERSION` no nível raiz.
+- Chaves duplicadas na mesma seção: último valor vence; registrar aviso em `warnings`.
+- `setup-map.js`: carrega `examples/map-setup-assetto-FH Alpine.txt`; só chaves listadas no mapa entram na comparação.
+- Linhas `--- Grupo ---` definem o título do quadro; `VALUE=N - Rótulo` formata enum; regras `from X to Y` com modificadores para %, fração, etc.
+- `diffMappedSetups`: compara apenas parâmetros do mapa; status `equal`, `different`, `only_a`, `only_b`.
+- Lógica pura em `parse-ini.js`, `setup-map.js` e `compare.js`; DOM apenas em `app.js`.

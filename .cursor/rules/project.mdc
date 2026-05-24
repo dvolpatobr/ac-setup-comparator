@@ -1,0 +1,14 @@
+---
+description: Escopo e stack do AC Setup Comparator
+alwaysApply: true
+---
+
+# AC Setup Comparator
+
+- Stack fixo: HTML, CSS e JavaScript vanilla (ES modules). Sem npm, sem bundler, sem backend.
+- Escopo: comparar arquivos `.ini` de setup do Assetto Corsa lado a lado no navegador.
+- Mapa de parâmetros: `@examples/map-setup-assetto-FH Alpine.txt` (chaves aceitas e labels).
+- Exemplo de setup: `@examples/setup-a.ini`.
+- Deploy: push em `main` dispara GitHub Pages (`.github/workflows/pages.yml`).
+- Não introduzir frameworks ou dependências pesadas sem pedido do usuário.
+- Não refatorar fora do escopo da tarefa solicitada.
