@@ -10,9 +10,13 @@ const pasteA = document.getElementById("paste-a");
 const pasteB = document.getElementById("paste-b");
 const filenameA = document.getElementById("filename-a");
 const filenameB = document.getElementById("filename-b");
+const presetA = document.getElementById("preset-a");
+const presetB = document.getElementById("preset-b");
 const btnCompare = document.getElementById("btn-compare");
 const btnLoadExamples = document.getElementById("btn-load-examples");
 const btnClear = document.getElementById("btn-clear");
+const btnDownloadA = document.getElementById("btn-download-a");
+const btnDownloadB = document.getElementById("btn-download-b");
 const errorMessage = document.getElementById("error-message");
 const resultsSection = document.getElementById("results-section");
 const summaryCards = document.getElementById("summary-cards");
@@ -57,6 +61,37 @@ function updateCompareButton() {
   const hasA = getContent(pasteA).length > 0;
   const hasB = getContent(pasteB).length > 0;
   btnCompare.disabled = !(hasA && hasB && setupMap);
+  btnDownloadA.disabled = !hasA;
+  btnDownloadB.disabled = !hasB;
+}
+
+async function loadPreset(presetName, targetTextarea, targetFilename, targetFileInput) {
+  if (!presetName) return;
+  try {
+    const response = await fetch(`examples/${presetName}.ini`);
+    if (!response.ok) throw new Error("Não foi possível carregar o preset selecionado.");
+    targetTextarea.value = await response.text();
+    targetFilename.textContent = `examples/${presetName}.ini`;
+    targetFileInput.value = "";
+    showError("");
+    updateCompareButton();
+  } catch (err) {
+    showError(err instanceof Error ? err.message : "Erro ao carregar preset.");
+  }
+}
+
+function downloadSetup(text, fallbackName) {
+  const content = text.trim();
+  if (!content) return;
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fallbackName;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
 }
 
 function readFile(file, textarea, filenameEl) {
@@ -86,6 +121,18 @@ fileB.addEventListener("change", () => {
 
 pasteA.addEventListener("input", updateCompareButton);
 pasteB.addEventListener("input", updateCompareButton);
+presetA.addEventListener("change", () =>
+  loadPreset(presetA.value, pasteA, filenameA, fileA)
+);
+presetB.addEventListener("change", () =>
+  loadPreset(presetB.value, pasteB, filenameB, fileB)
+);
+btnDownloadA.addEventListener("click", () =>
+  downloadSetup(getContent(pasteA), "setup-a-export.ini")
+);
+btnDownloadB.addEventListener("click", () =>
+  downloadSetup(getContent(pasteB), "setup-b-export.ini")
+);
 
 function parseSetup(text, label) {
   const result = parseIni(text);
@@ -293,6 +340,8 @@ btnClear.addEventListener("click", () => {
   pasteB.value = "";
   fileA.value = "";
   fileB.value = "";
+  presetA.value = "";
+  presetB.value = "";
   filenameA.textContent = "Nenhum arquivo";
   filenameB.textContent = "Nenhum arquivo";
   filterDiffsOnly.checked = false;
