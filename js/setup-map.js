@@ -63,7 +63,7 @@ function parseValueRule(valuePart) {
   }
 
   const rangeMatch = trimmed.match(
-    /^from\s+(-?\d+(?:\.\d+)?)\s+to\s+(-?\d+(?:\.\d+)?)(?:\s*,\s*(.+))?$/i
+    /^(?:from\s+)?(-?\d+(?:\.\d+)?)\s+to\s+(-?\d+(?:\.\d+)?)(?:\s*,\s*(.+))?$/i
   );
   if (rangeMatch) {
     return {
@@ -71,6 +71,18 @@ function parseValueRule(valuePart) {
       min: Number(rangeMatch[1]),
       max: Number(rangeMatch[2]),
       modifiers: rangeMatch[3]?.trim() ?? "",
+    };
+  }
+
+  const reverseRangeMatch = trimmed.match(
+    /^(-?\d+(?:\.\d+)?)\s+from\s+(-?\d+(?:\.\d+)?)(?:\s*,\s*(.+))?$/i
+  );
+  if (reverseRangeMatch) {
+    return {
+      type: "range",
+      min: Number(reverseRangeMatch[1]),
+      max: Number(reverseRangeMatch[2]),
+      modifiers: reverseRangeMatch[3]?.trim() ?? "",
     };
   }
 
@@ -270,7 +282,7 @@ function applyRangeModifiers(num, rule) {
   const brakeMigrMatch = m.match(
     /where\s+(-?\d+(?:\.\d+)?)\s+is\s+(-?\d+(?:\.\d+)?)\s+and\s+(-?\d+(?:\.\d+)?)\s+is\s+(\+?-?\d+(?:\.\d+)?)/i
   );
-  if (brakeMigrMatch && m.includes("0.0 from")) {
+  if (brakeMigrMatch && rule.min === 0 && rule.max === 60) {
     const rawMin = Number(brakeMigrMatch[1]);
     const rawMax = Number(brakeMigrMatch[3]);
     const dispMin = Number(brakeMigrMatch[2]);
