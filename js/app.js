@@ -3,6 +3,7 @@ import { diffMappedSetups, STATUS_LABELS } from "./compare.js";
 import { loadSetupMap } from "./setup-map.js";
 import { getHelpForKey } from "./fha-2025-help.js";
 import { initTooltips } from "./tooltip.js";
+import { renderTutorial } from "./tutorial.js";
 
 const fileA = document.getElementById("file-a");
 const fileB = document.getElementById("file-b");
@@ -19,8 +20,13 @@ const btnLoadExamples = document.getElementById("btn-load-examples");
 const btnClear = document.getElementById("btn-clear");
 const btnDownloadA = document.getElementById("btn-download-a");
 const btnDownloadB = document.getElementById("btn-download-b");
+const btnTutorial = document.getElementById("btn-tutorial");
+const btnBackComparator = document.getElementById("btn-back-comparator");
 const errorMessage = document.getElementById("error-message");
+const inputsPanel = document.querySelector(".inputs-panel");
 const resultsSection = document.getElementById("results-section");
+const tutorialSection = document.getElementById("tutorial-section");
+const tutorialContent = document.getElementById("tutorial-content");
 const summaryCards = document.getElementById("summary-cards");
 const resultsGroups = document.getElementById("results-groups");
 const filterDiffsOnly = document.getElementById("filter-diffs-only");
@@ -371,6 +377,27 @@ btnClear.addEventListener("click", () => {
   showError("");
   updateCompareButton();
 });
+
+function showComparator() {
+  inputsPanel.hidden = false;
+  tutorialSection.hidden = true;
+  if (currentRows) resultsSection.hidden = false;
+}
+
+function showTutorial() {
+  if (!setupMap) {
+    showError("O mapa de parâmetros ainda não foi carregado.");
+    return;
+  }
+  renderTutorial(tutorialContent, setupMap);
+  inputsPanel.hidden = true;
+  resultsSection.hidden = true;
+  tutorialSection.hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+btnTutorial.addEventListener("click", showTutorial);
+btnBackComparator.addEventListener("click", showComparator);
 
 initMap().then(updateCompareButton);
 updatePresetHint(presetA, presetHintA);
