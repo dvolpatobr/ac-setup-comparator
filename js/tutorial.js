@@ -42,6 +42,108 @@ const SOURCES = [
   },
 ];
 
+const FAQ_ITEMS = [
+  {
+    question: "O carro perde a traseira quando passo pela zebra. O que devo ajustar?",
+    start: "Comece diminuindo um clique no amortecimento de compressão rápida traseiro (DAMP_FAST_BUMP) e, se a traseira também salta ao sair da zebra, no retorno rápido (DAMP_FAST_REBOUND). “Rápida” descreve a velocidade do movimento da suspensão no impacto, não a velocidade do carro. Se bater no fundo, aumente a altura traseira (ROD_LENGTH_LR/RR).",
+    example: "Compressão rápida traseira (DAMP_FAST_BUMP_LR/RR) 10 → 9. Teste; se ainda houver salto no retorno, DAMP_FAST_REBOUND_LR/RR 8 → 7. Se raspar no fundo, altura traseira (ROD_LENGTH_LR/RR) 5 → 6.",
+    related: "Os amortecimentos trabalham com molas, barras e curso da suspensão. DAMP_FAST_BUMP/REBOUND tratam movimentos rápidos; DAMP_BUMP/REBOUND (compressão/retorno lentos) influenciam mais a plataforma em frenagem, rolagem e transições. Ajuste o conjunto pelo sintoma: não reduza os quatro valores automaticamente. Se os ajustes rápidos não resolverem uma zebra isolada, avalie PACKER_RANGE e altura antes de mexer nos lentos.",
+    check: "Se o problema acontece só na zebra, priorize amortecimento rápido e curso de suspensão antes de mexer em asa ou diferencial.",
+    references: [
+      "https://www.racecar-engineering.com/tech-explained/springs-and-dampers/",
+      "https://www.hpacademy.com/courses/motorsport-wheel-alignment-fundamentals/analysing-alignment-at-the-track-wet-vs-dry-setup/",
+    ],
+  },
+  {
+    question: "O carro perde a traseira em curva de alta. O que devo ajustar?",
+    start: "Se a instabilidade aumenta com a velocidade e aparece em apoio, aumente um clique na asa traseira (WING_1). Se acontece ao reacelerar, selecione um mapa de acelerador mais progressivo (Throttle Map) ou ajuste o diferencial na saída (Diff Exit).",
+    example: "Asa traseira (WING_1) 8 → 9; se for patinagem na saída, Diff Exit 7 → 8 ou Throttle Map 5 → 2.",
+    related: "Asa dianteira (WING_0) e traseira (WING_1) formam o equilíbrio aerodinâmico: adicionar só traseira tende a dar estabilidade, mas também pode aumentar subesterço e arrasto. Altura (ROD_LENGTH) e batentes (PACKER_RANGE) influenciam a plataforma; diferencial e mapa do acelerador só são o foco se o sintoma ocorrer sob potência.",
+    check: "Se a instabilidade cresce com a velocidade, trate primeiro o equilíbrio aerodinâmico; mais asa traseira aumenta estabilidade, mas reduz velocidade de reta.",
+    references: [
+      "https://www.formula1.com/en/latest/article/f1-glossary-a-e.1MFONigMlQSbSQtpP7YCy2",
+      "https://www.formula1.com/en/latest/article/tech-tuesday-why-was-red-bulls-pace-advantage-cut-so-dramatically-at.7J2OtKGx36iWUfyJcCP00H",
+    ],
+  },
+  {
+    question: "O carro tem dificuldade em contornar curva lenta. O que devo ajustar?",
+    start: "Identifique a fase: na entrada, experimente reduzir o balanço de freio dianteiro (FRONT_BIAS), o diferencial de entrada (Diff Entry), a pré-carga (DIFF_PRELOAD) ou o freio motor (EB). Se falta rotação no ápice, aumente um passo na barra estabilizadora traseira.",
+    example: "Balanço de freio (FRONT_BIAS) 58 → 57,5 ou pré-carga (DIFF_PRELOAD) 80 → 70; no ápice, barra traseira 3 → 4.",
+    related: "FRONT_BIAS e EB atuam principalmente na entrada/frenagem; Diff Entry e DIFF_PRELOAD influenciam a ação do diferencial nessa transição. No meio da curva, considere a barra e o Diff MID. Mude apenas o ajuste correspondente à fase do sintoma; asa costuma ter pouco efeito em curva lenta.",
+    check: "Em baixa velocidade há pouco efeito aerodinâmico. Confirme linha, velocidade e liberação do freio antes de mudar asas; faça apenas um ajuste por vez.",
+    references: [
+      "https://www.simracercentral.com/sim-racing-car-setup-guide/",
+      "https://www.hpacademy.com/courses/suspension-tuning-and-optimization/lateral-load-transfer-basics-total-lateral-load-transfer-distribution-and-tuning/",
+    ],
+  },
+  {
+    question: "O carro perde tração na reaceleração. O que devo ajustar?",
+    start: "Selecione um mapa de acelerador mais progressivo (Throttle Map 1 ou 2). Se uma roda traseira patina na saída, aumente um passo o bloqueio do diferencial na saída (Diff Exit); se o carro passa a sair de frente, reduza esse bloqueio.",
+    example: "Throttle Map 5 → 2; se houver patinagem, Diff Exit 7 → 8. Se surgir subesterço de potência, volte de 8 para 7.",
+    related: "Throttle Map controla como o torque chega ao piloto; Diff Exit controla como as rodas traseiras compartilham esse torque. Eles trabalham juntos, mas não são o mesmo ajuste. Mola/barra traseira, pressão e temperatura dos pneus também afetam tração; altere o diferencial somente depois de distinguir patinagem de perda geral de aderência.",
+    check: "Também confira combustível, temperatura dos pneus traseiros, toe e o momento em que você abre o acelerador. Mais bloqueio pode estabilizar, mas também pode causar subesterço de potência.",
+    references: [
+      "https://www.simracercentral.com/sim-racing-car-setup-guide/",
+      "https://www.simracingmanual.com/setups/springs-dampers-arbs/",
+    ],
+  },
+  {
+    question: "A dianteira trava durante a frenagem. O que devo ajustar?",
+    start: "Se trava primeiro a dianteira, reduza um pouco o balanço de freio dianteiro (FRONT_BIAS) ou a potência de frenagem (BRAKE_POWER_MULT). Se só trava no fim do pedal, reduza a migração de freio (Brake Migration) ou aumente o limiar (RAMP).",
+    example: "FRONT_BIAS 56 → 55,5 ou BRAKE_POWER_MULT 100 → 98. Para trava no fim do pedal: Brake Migration 4 → 3 ou RAMP 8 → 10.",
+    related: "Balanço base (FRONT_BIAS), migração e RAMP formam o balanço ao longo do curso do pedal: RAMP determina quando a migração começa. Reduzir FRONT_BIAS afeta também a fase inicial; para sintoma apenas no pedal profundo, prefira investigar migração/RAMP. Se travam as quatro rodas, verifique BRAKE_POWER_MULT e pneus.",
+    check: "Compare a mesma freada com pneus na janela térmica e a mesma carga de combustível; o manual destaca que bias muda com transferência de carga e pressão do pedal.",
+    references: [
+      "https://www.formula1.com/en/latest/article/f1-glossary-a-e.1MFONigMlQSbSQtpP7YCy2",
+      "https://www.formula1.com/en/latest/article/tech-tuesday-the-very-different-red-bull-ferrari-and-mercedes-solutions-to.4g7wKT5yJCzEwqJtXfDkCN",
+    ],
+  },
+  {
+    question: "O carro sai de frente no meio da curva. O que devo ajustar?",
+    start: "Para subesterço no meio da curva, diminua um passo a barra estabilizadora dianteira ou aumente a traseira. Se ocorre em curva rápida, avalie aumentar a asa dianteira (WING_0). Confira cambagem dianteira (CAMBER_LF/RF) e temperaturas.",
+    example: "Barra dianteira 5 → 4 ou traseira 3 → 4; em curva rápida, asa dianteira (WING_0) 10 → 11.",
+    related: "Barras e molas alteram juntas a distribuição de rigidez e a transferência de carga; mexer em ambas pode amplificar a mudança. WING_0 precisa ser equilibrada com a asa traseira (WING_1), e cambagem/temperatura ajudam a distinguir falta de apoio de pneu superaquecido.",
+    check: "Não corrija um problema de pneu sobrecarregado apenas com asa: cambagem, temperatura e distribuição de rigidez podem ser a causa.",
+    references: [
+      "https://www.racecar-engineering.com/tech-explained/racecar-suspension/",
+      "https://www.racecar-engineering.com/tech-explained/springs-and-dampers/",
+    ],
+  },
+  {
+    question: "Os pneus passam da temperatura ideal e perdem rendimento no stint. O que devo ajustar?",
+    start: "Se o pneu superaquece no stint, teste um composto mais duro (SOFT → MEDIUM) quando disponível e reduza a cambagem negativa excessiva. Revise pressão e equilíbrio de suspensão antes de amolecer amortecedores sem identificar o eixo afetado.",
+    example: "Composto SOFT → MEDIUM; cambagem dianteira esquerda (CAMBER_LF) -27 → -26. Compare as temperaturas interna, central e externa após várias voltas.",
+    related: "Composto, pressão, cambagem e alinhamento (toe) trabalham juntos na temperatura e no desgaste. Molas, barras e amortecedores mudam a carga sobre os pneus; use a distribuição de temperatura para localizar o problema antes de alterar o conjunto de suspensão.",
+    check: "Faça a leitura após várias voltas, não apenas na saída dos boxes. Temperatura, pressão, cambagem e uso dos freios trabalham juntos.",
+    references: [
+      "https://www.pirelli.com/global/en-ww/race/racingspot/formula-1/the-importance-of-tyres-in-formula-1-53772/",
+      "https://www.formula1.com/en/latest/article/tech-tuesday-the-very-different-red-bull-ferrari-and-mercedes-solutions-to.4g7wKT5yJCzEwqJtXfDkCN",
+    ],
+  },
+  {
+    question: "O carro raspa ou bate no fundo em alta velocidade. O que devo ajustar?",
+    start: "Aumente em pares a altura estática (ROD_LENGTH) para ganhar margem do solo. Revise o curso/batente progressivo (PACKER_RANGE) conforme o comportamento da suspensão; diminua rigidez de mola ou amortecimento apenas se houver evidência de plataforma rígida ou perda de contato.",
+    example: "ROD_LENGTH dianteiro e traseiro correspondentes 5 → 6; ajuste PACKER_RANGE 15 → 18 somente se o batente estiver entrando cedo demais.",
+    related: "ROD_LENGTH define a altura estática; PACKER_RANGE afeta o curso até o batente. Molas sustentam a carga e amortecedores controlam a velocidade do movimento. Se raspa apesar da altura, verifique batente/curso e compressão; não trate raspagem apenas endurecendo o amortecedor.",
+    check: "Mais altura pode custar downforce; procure a menor altura que não perde a plataforma nas compressões e zebras da pista.",
+    references: [
+      "https://www.formula1.com/en/latest/article/tech-tuesday-why-was-red-bulls-pace-advantage-cut-so-dramatically-at.7J2OtKGx36iWUfyJcCP00H",
+      "https://www.racecar-engineering.com/tech-explained/springs-and-dampers/",
+    ],
+  },
+  {
+    question: "O carro está lento nas retas, mesmo sendo estável nas curvas. O que devo ajustar?",
+    start: "Diminua gradualmente a asa dianteira (WING_0) e/ou traseira (WING_1), mantendo o equilíbrio do carro, e compare a velocidade no mesmo ponto. Depois revise altura/rake se a plataforma estiver fora da janela.",
+    example: "WING_0/WING_1 10/8 → 9/7; se perder tempo nas curvas ou na saída, recupere um clique na asa correspondente.",
+    related: "Asas dianteira e traseira combinam downforce e arrasto; reduzir as duas igualmente não garante o mesmo equilíbrio, pois a geometria e o fluxo diferem. Altura dianteira/traseira (ROD_LENGTH) também altera a plataforma aerodinâmica.",
+    check: "Não remova asa se isso fizer o carro perder tempo nas curvas que antecedem a reta; o ganho de velocidade final precisa compensar a perda de saída e apoio.",
+    references: [
+      "https://www.formula1.com/en/latest/article/f1-glossary-a-e.1MFONigMlQSbSQtpP7YCy2",
+      "https://www.formula1.com/en/latest/article/tech-tuesday-why-was-red-bulls-pace-advantage-cut-so-dramatically-at.7J2OtKGx36iWUfyJcCP00H",
+    ],
+  },
+];
+
 const GROUP_GUIDES = {
   Tyres: {
     intro: "Escolha o composto pensando na janela térmica e na duração do stint.",
@@ -300,6 +402,38 @@ function renderSources() {
   }).join("");
 }
 
+function renderFaqReferences(references) {
+  return references
+    .map(
+      (href, index) =>
+        `<a href="${href}" target="_blank" rel="noreferrer">fonte ${index + 1}</a>`
+    )
+    .join(" · ");
+}
+
+function renderFaq() {
+  return `
+    <section class="tutorial-faq" aria-labelledby="tutorial-faq-heading">
+      <h3 id="tutorial-faq-heading">FAQ — sintomas e primeiros ajustes</h3>
+      <p class="tutorial-faq__intro">Identifique em que fase da curva o problema aparece, faça uma alteração pequena e repita a mesma situação. As sugestões abaixo são pontos de partida, não substituem a leitura de temperatura, desgaste e telemetria.</p>
+      <div class="tutorial-faq__list">
+        ${FAQ_ITEMS.map(
+          (item) => `
+            <details class="tutorial-faq__item">
+              <summary>${escapeHtml(item.question)}</summary>
+              <div class="tutorial-faq__answer">
+                <p><strong>Comece por:</strong> ${escapeHtml(item.start)}</p>
+                <p><strong>Exemplo:</strong> ${escapeHtml(item.example)}</p>
+                <p><strong>Confirme:</strong> ${escapeHtml(item.check)}</p>
+                <p><strong>Ajustes relacionados:</strong> ${escapeHtml(item.related)}</p>
+                <p class="tutorial-faq__references">${renderFaqReferences(item.references)}</p>
+              </div>
+            </details>`
+        ).join("")}
+      </div>
+    </section>`;
+}
+
 function renderCard(field) {
   const help = FHA_2025_HELP[field.iniKey];
   const guide = getGuide(field);
@@ -350,7 +484,9 @@ export function renderTutorial(root, setupMap) {
     <section class="tutorial-sources" aria-labelledby="tutorial-sources-heading">
       <h3 id="tutorial-sources-heading">Fontes e leituras</h3>
       <ul>${renderSources()}</ul>
-    </section>`;
+    </section>
+
+    ${renderFaq()}`;
 }
 
 function slugify(text) {
